@@ -1,10 +1,11 @@
 import React from 'react'
 
-function ArrowKeys() {
+function ArrowKeys(props) {
+
   return (
     <div className="arrow-keys-container">
-      <div className="arrow">←</div>
-      <div className="arrow">→</div>
+      <div className="arrow" onClick={(e) => props.movePlayer(e)}>←</div>
+      <div className="arrow" onClick={(e) => props.movePlayer(e)}>→</div>
     </div>
   )
 }

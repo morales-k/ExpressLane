@@ -9,12 +9,14 @@ function Canvas() {
   const [canvasCenterX, setCanvasCenterX] = useState(centerWidth);
   const [canvasCenterY, setCanvasCenterY] = useState(centerHeight);
   const [isPortrait, setPortrait] = useState(orientation.matches);
+  const [carCordX, setCarCordX] = useState(100);
   const canvas = useRef();
   const dpr = window.devicePixelRatio || 1;
 
   // Set up listeners
   useEffect(() => {
     setupCanvas();
+    canvas.current.focus(); // Used with tabIndex = 0 to put canvas in focus on load.
 
     window.addEventListener('resize', () => {
       setupCanvas();
@@ -33,7 +35,7 @@ function Canvas() {
   // Redraw when orientation changes.
   useEffect(() => {
     draw();
-  }, [isPortrait]);
+  }, [isPortrait, carCordX]);
 
   useEffect(() => {
     setupCanvas();
@@ -68,13 +70,31 @@ function Canvas() {
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    car(ctx);
+
+    car(ctx, carCordX);
+  }
+
+  // Moves player based on arrow keys. tabIndex MUST be focused(0) for onKeyDown event to fire.
+  function movePlayer(e) {
+    if (e.target.innerText === '←' || e.key === 'ArrowLeft') {
+      if (carCordX < 25) { // Prevent negative X coordiate.
+        setCarCordX(0);
+      } else {
+        setCarCordX(carCordX - 25);
+      }
+    } else if (e.target.innerText === '→' || e.key === 'ArrowRight') {
+      if (carCordX + 95 >= window.screen.availWidth) { // 95 is used because the player is 70 pixels wide & moving by 25 pixels.
+        setCarCordX(window.screen.availWidth - 70);
+      } else {
+        setCarCordX(carCordX + 25);
+      }
+    }
   }
 
   return (
     <>
-    <ArrowKeys />
-    <canvas id="canvas" ref={canvas} />
+    <ArrowKeys movePlayer={movePlayer} />
+    <canvas id="canvas" ref={canvas} tabIndex={0} onKeyDown={(e) => movePlayer(e)} />
     </>
   )
 }
