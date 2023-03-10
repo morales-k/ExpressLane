@@ -1,4 +1,4 @@
-import { trackPlayer, calculatePlayerX, drawPlayer } from "./PlayerVM";
+import { trackPlayer, calculatePlayerMovement, drawPlayer } from "./PlayerVM";
 const dpr = window.devicePixelRatio || 1;
 let playerX = 100;
 let playerWidth = 70;
@@ -39,10 +39,10 @@ export function draw(canvas) {
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
 
-    const currentPlayerX = calculatePlayerX(rect.width, 75, playerWidth, arrowStates);
-    const updatedPlayerX = trackPlayer(75, currentPlayerX, canvas);
+    playerX = calculatePlayerMovement(rect.width, playerWidth, playerX, arrowStates);
+    const updatedPlayerX = trackPlayer(playerWidth, playerX, canvas);
 
-    drawPlayer(ctx, updatedPlayerX);
+    drawPlayer(ctx, playerWidth, updatedPlayerX);
     requestAnimationFrame(() => draw(canvas, playerX));
 }
 
@@ -57,25 +57,4 @@ export function handleEvent(e) {
   } else if (e.key === "ArrowRight") {
       e.type === "keyup" ? arrowStates.rightArrow = false : arrowStates.rightArrow = true;
   }
-}
-
-// Moves player based on arrow keys. tabIndex MUST be focused(0) for onKeyDown event to fire.
-export function calculatePlayerMovement(playerX) {
-  let updatedXCoord = playerX;
-
-  if (arrowStates.leftArrow) {
-    if (playerX < 25) { // Prevent negative X coordiate.
-      updatedXCoord = 0;
-    } else {
-      updatedXCoord = playerX - 25;
-    }
-  } else if (arrowStates.rightArrow) {
-    if (playerX + 95 >= window.screen.availWidth) { // 95 is used because the player is 70 pixels wide & moving by 25 pixels.
-      updatedXCoord = window.screen.availWidth - 70;
-    } else {
-      updatedXCoord = playerX + 25;
-    }
-  }
-
-  return updatedXCoord;
 }
