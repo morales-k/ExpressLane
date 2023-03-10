@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { handleEvent, setupCanvas, draw, calculatePlayerMovement } from '../ViewModel/CanvasVM';
+import { handleEvent, setupCanvas, draw } from '../ViewModel/CanvasVM';
 import ArrowKeys from './ArrowKeys';
 
 function Canvas() {
@@ -18,8 +18,8 @@ function Canvas() {
       setPortrait(orientation.matches);
     });
 
-    window.addEventListener('keydown', (e) => calculatePlayerMovement(e));
-    window.addEventListener('keyup', (e) => calculatePlayerMovement(e));
+    window.addEventListener('keydown', (e) => handleEvent(e));
+    window.addEventListener('keyup', (e) => handleEvent(e));
 
     // Clean up
     return () => {
@@ -28,8 +28,8 @@ function Canvas() {
         setPortrait(orientation.matches);
       });
 
-      window.removeEventListener('keydown', (e) => calculatePlayerMovement(e));
-      window.removeEventListener('keyup', (e) => calculatePlayerMovement(e));
+      window.removeEventListener('keydown', (e) => handleEvent(e));
+      window.removeEventListener('keyup', (e) => handleEvent(e));
     };
   }, []);
 
@@ -42,7 +42,7 @@ function Canvas() {
   return (
     <>
       {/* <ArrowKeys 
-        calculatePlayerMovement={calculatePlayerMovement} /> */}
+        handleEvent={handleEvent} /> */}
       <canvas 
         id="canvas" 
         ref={canvas} 
