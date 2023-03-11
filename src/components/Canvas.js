@@ -22,7 +22,6 @@ function Canvas() {
     return () => {
       window.removeEventListener('resize', () => {
         setupCanvas(canvas, setCanvasReady);
-        setPortrait(orientation.matches);
       });
 
       window.removeEventListener('keydown', (e) => handleEvent(e));

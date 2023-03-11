@@ -2,7 +2,7 @@ import { trackPlayer, calculatePlayerMovement, drawPlayer } from "./PlayerVM";
 const dpr = window.devicePixelRatio || 1;
 let playerX = 100;
 let playerWidth = 70;
-let arrowStates = {
+export let arrowStates = {
   leftArrow: false,
   rightArrow: false,
 };
