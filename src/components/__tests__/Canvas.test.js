@@ -19,8 +19,8 @@ describe("Arrow key events properly adjust arrowStates object.", () => {
   
   test("On LEFT UP, leftArrow is FALSE.", () => {
     render(<Canvas />);
-    const leftArrowPressed = new KeyboardEvent("keyup", {"key": "ArrowLeft"});
-    handleEvent(leftArrowPressed);
+    const leftArrowUp = new KeyboardEvent("keyup", {"key": "ArrowLeft"});
+    handleEvent(leftArrowUp);
     expect(arrowStates.leftArrow).toBe(false);
   });
   
@@ -33,8 +33,8 @@ describe("Arrow key events properly adjust arrowStates object.", () => {
   
   test("On RIGHT UP, rightArrow is FALSE.", () => {
     render(<Canvas />);
-    const rightArrowPressed = new KeyboardEvent("keyup", {"key": "ArrowRight"});
-    handleEvent(rightArrowPressed);
+    const rightArrowUp = new KeyboardEvent("keyup", {"key": "ArrowRight"});
+    handleEvent(rightArrowUp);
     expect(arrowStates.rightArrow).toBe(false);
   });
 });
