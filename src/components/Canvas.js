@@ -3,9 +3,7 @@ import { handleEvent, setupCanvas, draw } from '../ViewModel/CanvasVM';
 import ArrowKeys from './ArrowKeys';
 
 function Canvas() {
-  const orientation = window.matchMedia("(orientation: portrait)");
   const [canvasReady, setCanvasReady] = useState(false);
-  const [isPortrait, setPortrait] = useState(orientation.matches);
   const canvas = useRef();
 
   // Set up listeners
@@ -15,7 +13,6 @@ function Canvas() {
 
     window.addEventListener('resize', () => {
       setupCanvas(canvas, setCanvasReady);
-      setPortrait(orientation.matches);
     });
 
     window.addEventListener('keydown', (e) => handleEvent(e));
@@ -25,7 +22,6 @@ function Canvas() {
     return () => {
       window.removeEventListener('resize', () => {
         setupCanvas(canvas, setCanvasReady);
-        setPortrait(orientation.matches);
       });
 
       window.removeEventListener('keydown', (e) => handleEvent(e));
@@ -44,6 +40,7 @@ function Canvas() {
       {/* <ArrowKeys 
         handleEvent={handleEvent} /> */}
       <canvas 
+        data-testid="canvasTest"
         id="canvas" 
         ref={canvas} 
         tabIndex={0} 
