@@ -10,31 +10,25 @@ test("Canvas is rendered.", () => {
 });
 
 describe("Arrow key events properly adjust arrowStates object.", () => {
-  test("On LEFT PRESS, leftArrow is TRUE.", () => {
-    render(<Canvas />);
-    const leftArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowLeft"});
-    handleEvent(leftArrowPressed);
-    expect(arrowStates.leftArrow).toBe(true);
+  const directions = ["Left", "Right", "Up", "Down"];
+
+  directions.map(dir => {
+    test("On key press, it's state is true.", () => {
+      render(<Canvas />);
+      const arrowPressed = new KeyboardEvent("keydown", {"key": `Arrow${dir}`});
+      const currKey = dir.toLocaleLowerCase() + "Arrow";
+      handleEvent(arrowPressed);
+      expect(arrowStates[currKey]).toBe(true);
+    });
   });
-  
-  test("On LEFT UP, leftArrow is FALSE.", () => {
-    render(<Canvas />);
-    const leftArrowUp = new KeyboardEvent("keyup", {"key": "ArrowLeft"});
-    handleEvent(leftArrowUp);
-    expect(arrowStates.leftArrow).toBe(false);
-  });
-  
-  test("On RIGHT PRESS, rightArrow is TRUE.", () => {
-    render(<Canvas />);
-    const rightArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowRight"});
-    handleEvent(rightArrowPressed);
-    expect(arrowStates.rightArrow).toBe(true);
-  });
-  
-  test("On RIGHT UP, rightArrow is FALSE.", () => {
-    render(<Canvas />);
-    const rightArrowUp = new KeyboardEvent("keyup", {"key": "ArrowRight"});
-    handleEvent(rightArrowUp);
-    expect(arrowStates.rightArrow).toBe(false);
+
+  directions.map(dir => {
+    test("On key release, it's state is false.", () => {
+      render(<Canvas />);
+      const arrowReleased = new KeyboardEvent("keyup", {"key": `Arrow${dir}`});
+      const currKey = dir.toLocaleLowerCase() + "Arrow";
+      handleEvent(arrowReleased);
+      expect(arrowStates[currKey]).toBe(false);
+    });
   });
 });

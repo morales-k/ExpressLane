@@ -5,6 +5,8 @@ let playerWidth = 70;
 export let arrowStates = {
   leftArrow: false,
   rightArrow: false,
+  upArrow: false,
+  downArrow: false,
 };
 
 /**
@@ -56,5 +58,9 @@ export function handleEvent(e) {
        e.type === "keyup" ? arrowStates.leftArrow = false : arrowStates.leftArrow = true;
   } else if (e.key === "ArrowRight") {
       e.type === "keyup" ? arrowStates.rightArrow = false : arrowStates.rightArrow = true;
+  } else if (e.key === "ArrowUp") {
+      e.type === "keyup" ? arrowStates.upArrow = false : arrowStates.upArrow = true;
+  } else if (e.key === "ArrowDown") {
+    e.type === "keyup" ? arrowStates.downArrow = false : arrowStates.downArrow = true;
   }
 }
