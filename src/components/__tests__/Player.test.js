@@ -14,7 +14,7 @@ const releaseKeys = () => {
   });
 };
 
-describe("Player moves left/right depending on key press, without going out of bounds.", () => {
+describe("Player moves depending on key press, without going out of bounds.", () => {
   test("Player moves left.", () => {
     render(<Canvas />);
     releaseKeys();
@@ -39,5 +39,31 @@ describe("Player moves left/right depending on key press, without going out of b
   
     expect(updatedPlayer.x).toBeGreaterThan(10);
     expect(updatedPlayer.x).toBeLessThanOrEqual(maxWidth - player.size);
+  });
+
+  test("Player moves up.", () => {
+    render(<Canvas />);
+    releaseKeys();
+
+    const upArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowUp"});
+    handleEvent(upArrowPressed);
+    player.y = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
+  
+    expect(updatedPlayer.y).toBeLessThan(10);
+    expect(updatedPlayer.y).toBeGreaterThanOrEqual(0);
+  });
+
+  test("Player moves down.", () => {
+    render(<Canvas />);
+    releaseKeys();
+
+    const downArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowDown"});
+    handleEvent(downArrowPressed);
+    player.y = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
+  
+    expect(updatedPlayer.y).toBeGreaterThan(10);
+    expect(updatedPlayer.y).toBeLessThanOrEqual(maxHeight);
   });
 });
