@@ -1,6 +1,6 @@
 import { trackPlayer, calculatePlayerMovement, drawPlayer } from "./PlayerVM";
 const dpr = window.devicePixelRatio || 1;
-let player = {
+export let player = {
   x: 100,
   y: 100,
   size: 70,

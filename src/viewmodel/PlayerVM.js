@@ -24,7 +24,7 @@ export const drawPlayer = (ctx, updatedPlayer) => {
 export function calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates) {
   let updatedPlayer = player;
 
-  if (!!arrowStates.leftArrow && player.x >= 0) {
+  if (!!arrowStates.leftArrow && player.x > 0) {
     updatedPlayer.x = player.x -= 10;
   } else if (!!arrowStates.rightArrow && player.x <= maxWidth - player.size) {
     updatedPlayer.x = player.x += 10;
