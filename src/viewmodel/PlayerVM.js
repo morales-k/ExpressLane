@@ -1,13 +1,12 @@
 /**
- * Draws a rectangle with it's origin begining at updatedPlayerX.
+ * Draws a rectangle with it's origin begining at player x coord.
  * 
  * @param {Object} ctx - The context of the canvas object.
- * @param {Number} playerX - The X coordinate of the player.
- * @param {Number} updatedPlayerX - X coordinate of the mouse.
+ * @param {Object} updatedPlayer - Player object containing x/y coords and size.
  */
-export const drawPlayer = (ctx, playerWidth, updatedPlayerX) => {
+export const drawPlayer = (ctx, updatedPlayer) => {
   ctx.beginPath();
-  ctx.rect(updatedPlayerX, 75, playerWidth, playerWidth);
+  ctx.rect(updatedPlayer.x, updatedPlayer.y, updatedPlayer.size, updatedPlayer.size);
   ctx.fillStyle = 'blue';
   ctx.fill();
   ctx.stroke(); 
@@ -16,47 +15,49 @@ export const drawPlayer = (ctx, playerWidth, updatedPlayerX) => {
 /**
  * Calculates & returns the current player position.
  * 
- * @param {Number} maxWidth - The width of the canvas bounding rect.
- * @param {Number} playerWidth - The width of the player.
- * @param {Number} playerX - Origin of the x-coord of the player.
- * @param {object} arrowStates - Object indicating if left or right arrow key is currently pressed.
+ * @param {Number} maxWidth - Width of the canvas bounding rect.
+ * @param {Number} maxHeight - Height of the canvas bounding rect.
+ * @param {Object} player - Player object containing x/y coords and size.
+ * @param {Object} arrowStates - Object indicating if left or right arrow key is currently pressed.
  * @returns 
  */
-export function calculatePlayerMovement(maxWidth, playerWidth, playerX, arrowStates) {
-  let updatedXCoord = playerX;
+export function calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates) {
+  let updatedPlayer = player;
 
-  if (!!arrowStates.leftArrow && playerX >= 0) {
-      updatedXCoord = playerX -= 10;
-  } else if (!!arrowStates.rightArrow && playerX <= maxWidth - playerWidth) {
-      updatedXCoord = playerX += 10;
+  if (!!arrowStates.leftArrow && player.x > 0) {
+    updatedPlayer.x = player.x -= 10;
+  } else if (!!arrowStates.rightArrow && player.x <= maxWidth - player.size) {
+    updatedPlayer.x = player.x += 10;
+  } else if (!!arrowStates.upArrow && player.y > 0) {
+    updatedPlayer.y = player.y -= 10;
+  } else if (!!arrowStates.downArrow && player.y < maxHeight - player.size) {
+    updatedPlayer.y = player.y += 10;
   }
-  
-  return updatedXCoord;
+
+  return updatedPlayer;
 }
 
 /**
 * Updates coordinates & detects canvas edge.
 * 
-* @param {Number} playerWidth - The width of the player as a % of the canvas.
-* @param {Number} playerX - The X coordinate of the player.
+* @param {Object} player - X/Y coords and player size.
 * @param {Object} canvas - The canvas element itself.
 * @returns Number;
 */
-export function trackPlayer(playerWidth, playerX, canvas) {
+export function trackPlayer(player, canvas) {
   const rect = canvas.current.getBoundingClientRect();
-  const leftEdgeCollision = playerX <= 0 ? true : false;
-  const rightEdgeCollision = playerX >= rect.width - playerWidth ? true : false;
-
-  let updatedPlayerX = 0;
+  const leftEdgeCollision = player.x <= 0 ? true : false;
+  const rightEdgeCollision = player.x >= rect.width - player.size? true : false;
+  let updatedPlayer = player;
 
   // Reset coords if mouse touches edge.
   if (leftEdgeCollision) {
-      updatedPlayerX = 0;
+    updatedPlayer.x = 0;
   } else if (rightEdgeCollision) {
-      updatedPlayerX = rect.width - playerWidth;
+    updatedPlayer.x = rect.width - player.size;
   } else {
-      updatedPlayerX = playerX;
+    updatedPlayer.x = player.x;
   }
 
-  return updatedPlayerX;
+  return updatedPlayer;
 }

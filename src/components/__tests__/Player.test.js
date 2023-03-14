@@ -1,39 +1,69 @@
 import { render } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import Canvas from "../Canvas";
-import { handleEvent, arrowStates } from "../../ViewModel/CanvasVM";
+import { handleEvent, arrowStates, player } from "../../ViewModel/CanvasVM";
 import { calculatePlayerMovement } from "../../ViewModel/PlayerVM";
+const directions = ["Left", "Right", "Up", "Down"];
+const maxWidth = 100;
+const maxHeight = 100;
 
-describe("Player moves left/right depending on key press, without going out of bounds.", () => {
+const releaseKeys = () => {
+  directions.map(dir => {
+    const arrowReleased = new KeyboardEvent("keyup", {"key": `Arrow${dir}`});
+    handleEvent(arrowReleased);
+  });
+};
+
+describe("Player moves depending on key press, without going out of bounds.", () => {
   test("Player moves left.", () => {
     render(<Canvas />);
-    const maxWidth = 100;
-    const playerWidth = 70;
-    const playerX = 30;
+    releaseKeys();
+
     const leftArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowLeft"});
-    const rightArrowUp = new KeyboardEvent("keyup", {"key": "ArrowRight"});
-  
-    handleEvent(rightArrowUp);
     handleEvent(leftArrowPressed);
-    const updatedXCoord = calculatePlayerMovement(maxWidth, playerWidth, playerX, arrowStates);
+    player.x = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
-    expect(updatedXCoord).toBeLessThan(playerX);
-    expect(updatedXCoord).toBeGreaterThanOrEqual(0);
+    expect(updatedPlayer.x).toBeLessThan(11);
+    expect(updatedPlayer.x).toBeGreaterThanOrEqual(0);
   });
   
   test("Player moves right.", () => {
     render(<Canvas />);
-    const maxWidth = 100;
-    const playerWidth = 70;
-    const playerX = 20;
-    const leftArrowUp = new KeyboardEvent("keyup", {"key": "ArrowLeft"});
+    releaseKeys();
+
     const rightArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowRight"});
-  
-    handleEvent(leftArrowUp);
     handleEvent(rightArrowPressed);
-    const updatedXCoord = calculatePlayerMovement(maxWidth, playerWidth, playerX, arrowStates);
+    player.x = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
-    expect(updatedXCoord).toBeGreaterThan(playerX);
-    expect(updatedXCoord).toBeLessThanOrEqual(maxWidth - playerWidth);
+    expect(updatedPlayer.x).toBeGreaterThan(10);
+    expect(updatedPlayer.x).toBeLessThanOrEqual(maxWidth - player.size);
+  });
+
+  test("Player moves up.", () => {
+    render(<Canvas />);
+    releaseKeys();
+
+    const upArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowUp"});
+    handleEvent(upArrowPressed);
+    player.y = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
+  
+    expect(updatedPlayer.y).toBeLessThan(10);
+    expect(updatedPlayer.y).toBeGreaterThanOrEqual(0);
+  });
+
+  test("Player moves down.", () => {
+    render(<Canvas />);
+    releaseKeys();
+
+    const downArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowDown"});
+    handleEvent(downArrowPressed);
+    player.y = 10;
+    const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
+  
+    expect(updatedPlayer.y).toBeGreaterThan(10);
+    expect(updatedPlayer.y).toBeLessThanOrEqual(maxHeight);
   });
 });
