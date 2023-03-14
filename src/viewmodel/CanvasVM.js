@@ -1,7 +1,10 @@
 import { trackPlayer, calculatePlayerMovement, drawPlayer } from "./PlayerVM";
 const dpr = window.devicePixelRatio || 1;
-let playerX = 100;
-let playerWidth = 70;
+let player = {
+  x: 100,
+  y: 100,
+  size: 70,
+};
 export let arrowStates = {
   leftArrow: false,
   rightArrow: false,
@@ -31,8 +34,7 @@ export function setupCanvas(canvas, setCanvasReady) {
 /**
  * Clears & redraws the canvas. 
  * 
- * @param {object} canvas - The canvas element itself.
- * @param {number} playerX - The player's X coord.
+ * @param {Object} canvas - The canvas element itself.
  */
 export function draw(canvas) {
     const ctx = canvas.current.getContext('2d');
@@ -41,11 +43,11 @@ export function draw(canvas) {
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
 
-    playerX = calculatePlayerMovement(rect.width, playerWidth, playerX, arrowStates);
-    const updatedPlayerX = trackPlayer(playerWidth, playerX, canvas);
+    player = calculatePlayerMovement(rect.width, rect.height, player, arrowStates);
+    const updatedPlayer = trackPlayer(player, canvas);
 
-    drawPlayer(ctx, playerWidth, updatedPlayerX);
-    requestAnimationFrame(() => draw(canvas, playerX));
+    drawPlayer(ctx, updatedPlayer);
+    requestAnimationFrame(() => draw(canvas, updatedPlayer));
 }
 
 /**
