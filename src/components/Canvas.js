@@ -37,8 +37,7 @@ function Canvas() {
 
   return (
     <>
-      {/* <ArrowKeys 
-        handleEvent={handleEvent} /> */}
+      <ArrowKeys />
       <canvas 
         data-testid="canvasTest"
         id="canvas" 
@@ -49,4 +48,4 @@ function Canvas() {
   )
 }
 
-export default Canvas
+export default Canvas;
