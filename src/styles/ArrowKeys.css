@@ -3,7 +3,21 @@
   --arrowsRight: 25px;
 }
 
+.arrow {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 .arrow-keys-container {
+  width: 120px;
+  height: 120px;
   display: flex;
   position: absolute;
   left: var(--arrowsLeft);
@@ -12,32 +26,40 @@
   z-index: 2;
 }
 
-/* Left & right arrow keys. */
-.arrow-keys-container span:first-of-type, .arrow-keys-container span:last-of-type {
-  display: flex;
-  align-items: center;
-}
-
-/* Up arrow key */
-.arrow-keys-container span:nth-of-type(2) .arrow:first-of-type {
-  margin-bottom: 40px;
-}
-
-/* Down arrow key */
-.arrow-keys-container span:nth-of-type(2) .arrow:last-of-type {
-  margin-top: 40px;
-}
-
-.arrow {
-  width: 40px;
+.arrow-keys-container span {
   height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(187, 252, 255, 0.33);
-  border: none;
-  border-radius: 6px;
-  padding: 0;
-  box-sizing: border-box;
-  cursor: pointer;
+  background-color: rgb(203, 237, 238);
+  border-radius: 8px;
+  align-self: center;
+}
+
+.arrow-keys-container span:nth-child(2) {
+  align-self: flex-start;
+}
+
+.arrow-keys-container span:nth-child(3) {
+  align-self: flex-end;
+  position: relative;
+  left: -40px;
+}
+
+.arrow-keys-container span:nth-child(4) {
+  position: relative;
+  left: -40px;
+}
+
+#arrowLeft {
+  background: url("../Assets/arrowleft.png") center center no-repeat;
+}
+
+#arrowRight {
+  background: url("../Assets/arrowright.png") center center no-repeat;
+}
+
+#arrowUp {
+  background: url("../Assets/arrowup.png") center center no-repeat;
+}
+
+#arrowDown {
+  background: url("../Assets/arrowdown.png") center center no-repeat;
 }
