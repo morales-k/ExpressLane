@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import Canvas from "../Canvas";
-import { arrowStates, handleEvent } from "../../ViewModel/CanvasVM";
+import { arrowStates, handleDirection } from "../../ViewModel/CanvasVM";
 
 test("Canvas is rendered.", () => {
   render(<Canvas />);
@@ -17,7 +17,7 @@ describe("Arrow key events properly adjust arrowStates object.", () => {
       render(<Canvas />);
       const arrowPressed = new KeyboardEvent("keydown", {"key": `Arrow${dir}`});
       const currKey = dir.toLocaleLowerCase() + "Arrow";
-      handleEvent(arrowPressed);
+      handleDirection(arrowPressed);
       expect(arrowStates[currKey]).toBe(true);
     });
   });
@@ -27,7 +27,7 @@ describe("Arrow key events properly adjust arrowStates object.", () => {
       render(<Canvas />);
       const arrowReleased = new KeyboardEvent("keyup", {"key": `Arrow${dir}`});
       const currKey = dir.toLocaleLowerCase() + "Arrow";
-      handleEvent(arrowReleased);
+      handleDirection(arrowReleased);
       expect(arrowStates[currKey]).toBe(false);
     });
   });
