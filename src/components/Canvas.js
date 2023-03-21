@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { handleEvent, setupCanvas, draw } from '../ViewModel/CanvasVM';
+import { handleDirection, setupCanvas, draw } from '../ViewModel/CanvasVM';
 import ArrowKeys from './ArrowKeys';
 
 function Canvas() {
@@ -15,8 +15,8 @@ function Canvas() {
       setupCanvas(canvas, setCanvasReady);
     });
 
-    window.addEventListener('keydown', (e) => handleEvent(e));
-    window.addEventListener('keyup', (e) => handleEvent(e));
+    window.addEventListener('keydown', (e) => handleDirection(e));
+    window.addEventListener('keyup', (e) => handleDirection(e));
 
     // Clean up
     return () => {
@@ -24,8 +24,8 @@ function Canvas() {
         setupCanvas(canvas, setCanvasReady);
       });
 
-      window.removeEventListener('keydown', (e) => handleEvent(e));
-      window.removeEventListener('keyup', (e) => handleEvent(e));
+      window.removeEventListener('keydown', (e) => handleDirection(e));
+      window.removeEventListener('keyup', (e) => handleDirection(e));
     };
   }, []);
 
@@ -43,7 +43,7 @@ function Canvas() {
         id="canvas" 
         ref={canvas} 
         tabIndex={0} 
-        onKeyDown={(e) => handleEvent(e)} />
+        onKeyDown={(e) => handleDirection(e)} />
     </>
   )
 }

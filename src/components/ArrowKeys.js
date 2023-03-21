@@ -1,5 +1,5 @@
 import React from 'react';
-import { handleEvent } from '../ViewModel/CanvasVM';
+import { handleDirection } from '../ViewModel/CanvasVM';
 
 function ArrowKeys() {
   const directions = ["Left", "Up", "Down", "Right"];
@@ -15,8 +15,8 @@ function ArrowKeys() {
                 type="button" 
                 className="arrow"
                 id={`arrow${dir}`} 
-                onMouseDown={(e) => handleEvent(e)}
-                onMouseUp={(e) => handleEvent(e)}>
+                onMouseDown={(e) => handleDirection(e)}
+                onMouseUp={(e) => handleDirection(e)}>
               </button>
             </span>
           );

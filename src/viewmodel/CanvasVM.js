@@ -51,18 +51,37 @@ export function draw(canvas) {
 }
 
 /**
- * Handles user events.
+ * Updates arrowStates object by determining key pressed and event type.
  * 
  * @param {object} e - The event object.
  */
-export function handleEvent(e) {
-  if (e.key === "ArrowLeft") {
-       e.type === "keyup" ? arrowStates.leftArrow = false : arrowStates.leftArrow = true;
-  } else if (e.key === "ArrowRight") {
-      e.type === "keyup" ? arrowStates.rightArrow = false : arrowStates.rightArrow = true;
-  } else if (e.key === "ArrowUp") {
-      e.type === "keyup" ? arrowStates.upArrow = false : arrowStates.upArrow = true;
-  } else if (e.key === "ArrowDown") {
-    e.type === "keyup" ? arrowStates.downArrow = false : arrowStates.downArrow = true;
+export function handleDirection(e) {
+  let arrow;
+  let press;
+
+  // Determine which arrow was pressed.
+  if (!e.key) {
+    let key = e.target.id;
+    arrow = key[0].toUpperCase() + key.slice(1);
+  } else {
+    arrow = e.key;
+  }
+
+  // Determine the event type.
+  if (e.type === "keyup" || e.type === "mouseup") {
+    press = "up";
+  } else {
+    press = "down";
+  }
+  
+  // Update the arrowStates object so player movement can be calculated.
+  if (arrow === "ArrowLeft") {
+    press === "up" ? arrowStates.leftArrow = false : arrowStates.leftArrow = true;
+  } else if (arrow === "ArrowRight") {
+    press === "up" ? arrowStates.rightArrow = false : arrowStates.rightArrow = true;
+  } else if (arrow === "ArrowUp") {
+    press === "up" ? arrowStates.upArrow = false : arrowStates.upArrow = true;
+  } else if (arrow === "ArrowDown") {
+    press === "up" ? arrowStates.downArrow = false : arrowStates.downArrow = true;
   }
 }
