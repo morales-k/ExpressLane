@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import Canvas from "../Canvas";
-import { handleEvent, arrowStates, player } from "../../ViewModel/CanvasVM";
+import { handleDirection, arrowStates, player } from "../../ViewModel/CanvasVM";
 import { calculatePlayerMovement } from "../../ViewModel/PlayerVM";
 const directions = ["Left", "Right", "Up", "Down"];
 const maxWidth = 100;
@@ -10,7 +10,7 @@ const maxHeight = 100;
 const releaseKeys = () => {
   directions.map(dir => {
     const arrowReleased = new KeyboardEvent("keyup", {"key": `Arrow${dir}`});
-    handleEvent(arrowReleased);
+    handleDirection(arrowReleased);
   });
 };
 
@@ -20,7 +20,7 @@ describe("Player moves depending on key press, without going out of bounds.", ()
     releaseKeys();
 
     const leftArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowLeft"});
-    handleEvent(leftArrowPressed);
+    handleDirection(leftArrowPressed);
     player.x = 10;
     const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
@@ -33,7 +33,7 @@ describe("Player moves depending on key press, without going out of bounds.", ()
     releaseKeys();
 
     const rightArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowRight"});
-    handleEvent(rightArrowPressed);
+    handleDirection(rightArrowPressed);
     player.x = 10;
     const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
@@ -46,7 +46,7 @@ describe("Player moves depending on key press, without going out of bounds.", ()
     releaseKeys();
 
     const upArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowUp"});
-    handleEvent(upArrowPressed);
+    handleDirection(upArrowPressed);
     player.y = 10;
     const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
@@ -59,7 +59,7 @@ describe("Player moves depending on key press, without going out of bounds.", ()
     releaseKeys();
 
     const downArrowPressed = new KeyboardEvent("keydown", {"key": "ArrowDown"});
-    handleEvent(downArrowPressed);
+    handleDirection(downArrowPressed);
     player.y = 10;
     const updatedPlayer = calculatePlayerMovement(maxWidth, maxHeight, player, arrowStates);
   
