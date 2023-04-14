@@ -11,7 +11,7 @@ function Settings() {
   return (
     <div className="settings-container">
       <h1>Settings</h1>
-      <form name="settings" className="settings-form">
+      <form role="form" name="settings" className="settings-form">
         <fieldset>
         <h2>Arrow key placement</h2>
           <label htmlFor="leftkeys">Left</label>
